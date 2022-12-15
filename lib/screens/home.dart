@@ -115,82 +115,87 @@ class _HomeState extends State<Home> {
                 width: 1100,
               ),
               padding: const EdgeInsets.only(top: 50),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Text(
-                    "Rh${rh == RH.positive ? '+' : '-'}${describeEnum(abo).toUpperCase()}",
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(
-                    height: 70,
-                  ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      Text(
-                        "Rh응집원 ${rh == RH.positive ? '있음' : '없음'}",
-                        style: Theme.of(context).textTheme.bodyMedium,
+              child: ScrollConfiguration(
+                behavior:
+                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                child: ListView(
+                  children: [
+                    Center(
+                      child: Text(
+                        "Rh${rh == RH.positive ? '+' : '-'}${describeEnum(abo).toUpperCase()}",
+                        style: Theme.of(context).textTheme.titleLarge,
                       ),
-                      Text(
-                        "Rh응집소 없음${rh == RH.positive ? '' : '(후천적 생성 가능)'}",
-                        style: Theme.of(context).textTheme.bodyMedium,
-                      ),
-                      if (abo == ABO.A)
+                    ),
+                    const SizedBox(
+                      height: 70,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
                         Text(
-                          "응집원 A 있음",
+                          "Rh응집원 ${rh == RH.positive ? '있음' : '없음'}",
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                      if (abo == ABO.B)
                         Text(
-                          "응집원 B 있음",
+                          "Rh응집소 없음${rh == RH.positive ? '' : '(후천적 생성 가능)'}",
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                      if (abo == ABO.AB)
-                        Text(
-                          "응집원 A와 B 있음",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      if (abo == ABO.O)
-                        Text(
-                          "응집원 A와 B 없음",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      if (abo == ABO.A)
-                        Text(
-                          "응집소 β 있음",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      if (abo == ABO.B)
-                        Text(
-                          "응집원 α 있음",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      if (abo == ABO.AB)
-                        Text(
-                          "응집원 α와 β 없음",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        ),
-                      if (abo == ABO.O)
-                        Text(
-                          "응집원 α와 β 있음",
-                          style: Theme.of(context).textTheme.bodyMedium,
-                        )
-                    ],
-                  ),
-                  buildResponse(
-                      context: context,
-                      responseName: "Rh 반응",
-                      result: rh == RH.positive),
-                  buildResponse(
-                      context: context,
-                      responseName: "항A혈청 반응",
-                      result: abo == ABO.A || abo == ABO.AB),
-                  buildResponse(
-                      context: context,
-                      responseName: "항B혈청 반응",
-                      result: abo == ABO.B || abo == ABO.AB),
-                ],
+                        if (abo == ABO.A)
+                          Text(
+                            "응집원 A 있음",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        if (abo == ABO.B)
+                          Text(
+                            "응집원 B 있음",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        if (abo == ABO.AB)
+                          Text(
+                            "응집원 A와 B 있음",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        if (abo == ABO.O)
+                          Text(
+                            "응집원 A와 B 없음",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        if (abo == ABO.A)
+                          Text(
+                            "응집소 β 있음",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        if (abo == ABO.B)
+                          Text(
+                            "응집원 α 있음",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        if (abo == ABO.AB)
+                          Text(
+                            "응집원 α와 β 없음",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          ),
+                        if (abo == ABO.O)
+                          Text(
+                            "응집원 α와 β 있음",
+                            style: Theme.of(context).textTheme.bodyMedium,
+                          )
+                      ],
+                    ),
+                    buildResponse(
+                        context: context,
+                        responseName: "Rh 반응",
+                        result: rh == RH.positive),
+                    buildResponse(
+                        context: context,
+                        responseName: "항A혈청 반응",
+                        result: abo == ABO.A || abo == ABO.AB),
+                    buildResponse(
+                        context: context,
+                        responseName: "항B혈청 반응",
+                        result: abo == ABO.B || abo == ABO.AB),
+                  ],
+                ),
               ),
             ),
           );

@@ -116,8 +116,8 @@ class _HomeState extends State<Home> {
               ),
               padding: const EdgeInsets.only(top: 50),
               child: ScrollConfiguration(
-                behavior:
-                    ScrollConfiguration.of(context).copyWith(scrollbars: false),
+                behavior: ScrollConfiguration.of(context)
+                    .copyWith(scrollbars: false, overscroll: false),
                 child: ListView(
                   children: [
                     Center(

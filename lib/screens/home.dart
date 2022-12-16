@@ -13,9 +13,39 @@ enum RH { positive, negative }
 enum ABO { A, B, AB, O }
 
 class _HomeState extends State<Home> {
-  RH rh = RH.positive;
-  ABO abo = ABO.A;
-  bool selectedABO = false;
+  var rh = RH.positive;
+  var abo = ABO.A;
+  var selectedABO = false;
+
+  var canReceive = {
+    ABO.A: [
+      ABO.O,
+    ],
+    ABO.B: [
+      ABO.O,
+    ],
+    ABO.AB: [
+      ABO.A,
+      ABO.B,
+      ABO.O,
+    ],
+    ABO.O: []
+  };
+
+  var canGive = {
+    ABO.A: [
+      ABO.AB,
+    ],
+    ABO.B: [
+      ABO.AB,
+    ],
+    ABO.AB: [],
+    ABO.O: [
+      ABO.A,
+      ABO.B,
+      ABO.O,
+    ]
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +153,10 @@ class _HomeState extends State<Home> {
                     Center(
                       child: Text(
                         "Rh${rh == RH.positive ? '+' : '-'}${describeEnum(abo).toUpperCase()}",
-                        style: Theme.of(context).textTheme.titleLarge,
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleLarge
+                            ?.copyWith(fontSize: 40),
                       ),
                     ),
                     const SizedBox(
@@ -182,6 +215,7 @@ class _HomeState extends State<Home> {
                           )
                       ],
                     ),
+                    const Divider(),
                     buildResponse(
                         context: context,
                         responseName: "Rh 반응",
@@ -194,6 +228,126 @@ class _HomeState extends State<Home> {
                         context: context,
                         responseName: "항B혈청 반응",
                         result: abo == ABO.B || abo == ABO.AB),
+                    const Divider(),
+                    Row(
+                      children: [
+                        Text(
+                          "수혈 받기 가능",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "(다량 수혈) ",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  Text(
+                                    "Rh${rh == RH.positive ? '+' : '-'}${describeEnum(abo).toUpperCase()} ",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "(소량 수혈) ",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  for (var bloodType in canReceive[abo]!)
+                                    Text(
+                                      "Rh${rh == RH.positive ? '+' : '-'}${describeEnum(bloodType).toUpperCase()} ",
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  if (rh == RH.positive)
+                                    Text(
+                                      "Rh-${describeEnum(abo).toUpperCase()} ",
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  if (rh == RH.positive)
+                                    for (var bloodType in canReceive[abo]!)
+                                      Text(
+                                        "Rh-${describeEnum(bloodType).toUpperCase()} ",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      children: [
+                        Text(
+                          "수혈 제공 가능",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        Expanded(
+                          child: Column(
+                            children: [
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "(다량 수혈) ",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  Text(
+                                    "Rh${rh == RH.positive ? '+' : '-'}${describeEnum(abo).toUpperCase()} ",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    "(소량 수혈) ",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  for (var bloodType in canGive[abo]!)
+                                    Text(
+                                      "Rh${rh == RH.positive ? '+' : '-'}${describeEnum(bloodType).toUpperCase()} ",
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  if (rh == RH.negative)
+                                    Text(
+                                      "Rh+${describeEnum(abo).toUpperCase()} ",
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
+                                    ),
+                                  if (rh == RH.negative)
+                                    for (var bloodType in canGive[abo]!)
+                                      Text(
+                                        "Rh+${describeEnum(bloodType).toUpperCase()} ",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                      ),
+                                ],
+                              )
+                            ],
+                          ),
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),
@@ -210,7 +364,7 @@ class _HomeState extends State<Home> {
     required bool result,
   }) {
     return Container(
-      padding: const EdgeInsets.all(100),
+      padding: const EdgeInsets.all(30),
       child: Row(
         children: [
           Image.asset(

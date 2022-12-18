@@ -66,7 +66,7 @@ class _HomeState extends State<Home> {
                 child: Column(
                   children: [
                     RadioListTile(
-                      title: const Text("RH+"),
+                      title: const Text("Rh+"),
                       value: RH.positive,
                       groupValue: rh,
                       onChanged: (RH? value) {
@@ -76,7 +76,7 @@ class _HomeState extends State<Home> {
                       },
                     ),
                     RadioListTile(
-                      title: const Text("RH-"),
+                      title: const Text("Rh-"),
                       value: RH.negative,
                       groupValue: rh,
                       onChanged: (RH? value) {
